@@ -1,0 +1,142 @@
+% ==============================================================
+% Remarkable Pro Move briefing preamble
+% --------------------------------------------------------------
+% - Page: 4.00in x 7.11in (16:9 portrait, approximates Move display)
+% - Body: TeX Gyre Pagella (Palatino-like Latin-script serif)
+% - Headings: TeX Gyre Adventor (companion sans-serif)
+% - Footnotes per page + consolidated References list at end
+%
+% USAGE:
+%   \input{remarkable-preamble.tex}
+%   \newcommand{\briefingtitle}{My Briefing}
+%   \newcommand{\transcriptnum}{1}
+%   \title{...}
+%   \author{...}
+%   \date{...}
+%   \begin{document}\maketitle\thispagestyle{plain}
+%   ... body ...
+%   \end{document}
+%
+% ANNOTATION MARGIN:
+%   The default right margin is 0.75in, which reserves space for
+%   handwritten stylus annotations on e-ink readers. This gives a
+%   text column of ~2.90in — a good balance between readability and
+%   annotation space. For maximum words-per-page (no annotations),
+%   change to `right=0.35in`. For a wider annotation column, use
+%   `right=1.00in` (~2.65in text column, ~25% more pages).
+% ==============================================================
+
+\documentclass[10pt]{article}
+
+% ---------- Geometry (Remarkable Pro Move, ~4in wide, 16:9) ----------
+\usepackage[
+  paperwidth=4.00in,
+  paperheight=7.11in,
+  top=0.40in,
+  bottom=0.45in,
+  left=0.35in,
+  right=0.75in,         % annotation margin for stylus notes (0.35in for no margin)
+  footskip=0.20in,
+  headheight=12pt,
+  headsep=0.10in
+]{geometry}
+
+% ---------- Fonts ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tgpagella}              % Pagella for body (Latin-script serif)
+\renewcommand{\familydefault}{\rmdefault}
+\usepackage{tgadventor}             % Adventor (Latin-script sans) companion
+\renewcommand{\sfdefault}{qag}      % set sans default to Adventor
+\usepackage{microtype}              % cleaner line breaks and spacing
+
+% ---------- Layout helpers ----------
+\usepackage{setspace}
+\setstretch{1.14}                   % mild leading for e-ink readability
+\usepackage{parskip}                % blank line between paragraphs, no indent
+\setlength{\parskip}{0.55em plus 0.15em minus 0.10em}
+
+% narrow-column line breaking: allow TeX more slack before overfulling
+\setlength{\emergencystretch}{3.5em}
+\hyphenpenalty=50
+\tolerance=2000
+
+% ---------- Sectioning ----------
+\usepackage{titlesec}
+% Smaller headings — page is only 4in wide
+\titleformat{\section}{\sffamily\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\sffamily\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\sffamily\small\bfseries\itshape}{}{0em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.6em}
+\titlespacing*{\subsection}{0pt}{1.1em}{0.45em}
+\titlespacing*{\subsubsection}{0pt}{0.8em}{0.30em}
+
+% ---------- Page headers/footers ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+% The document MUST define \briefingtitle and \transcriptnum with
+% \newcommand BEFORE \begin{document} (see example-body.tex).
+\fancyhead[L]{\scriptsize\sffamily\MakeUppercase{\briefingtitle}}
+\fancyhead[R]{\scriptsize\sffamily \transcriptnum}
+\fancyfoot[C]{\small\thepage}
+
+% Plain style for first page
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[C]{\small\thepage}%
+}
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=1.1em, itemsep=0.25em, topsep=0.30em}
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\renewcommand{\arraystretch}{1.15}
+
+% ---------- Footnotes — keep tight, per-page ----------
+\usepackage[bottom,hang,flushmargin]{footmisc}
+\renewcommand{\footnotesize}{\fontsize{7.8pt}{9.2pt}\selectfont}
+\setlength{\footnotesep}{0.7em}
+
+% ---------- Blockquote styling ----------
+\renewenvironment{quote}{\begin{list}{}{%
+  \setlength{\leftmargin}{0.8em}%
+  \setlength{\rightmargin}{0.3em}%
+  \setlength{\topsep}{0.3em}%
+  \setlength{\parsep}{0pt}%
+}\item[]\itshape\small}{\end{list}}
+
+% ---------- Hyperlinks (last) ----------
+\usepackage[hidelinks,breaklinks=true]{hyperref}
+\usepackage{xurl}                   % aggressive URL line-breaking for narrow pages
+\hypersetup{
+  pdfpagelayout=SinglePage,
+  pdfdisplaydoctitle=true,
+}
+
+% ---------- Title block ----------
+\makeatletter
+\renewcommand{\maketitle}{%
+  \begin{flushleft}%
+    {\sffamily\Large\bfseries \@title\par}%
+    \vspace{0.4em}%
+    {\sffamily\small \@author\par}%
+    \vspace{0.2em}%
+    {\sffamily\footnotesize \@date\par}%
+    \vspace{0.4em}%
+    \hrule height 0.4pt%
+    \vspace{0.8em}%
+  \end{flushleft}%
+}
+\makeatother
+
+% ---------- Convenience commands ----------
+% Informal superscript reference marker for repeat citations.
+\renewcommand{\cite}[1]{\textsuperscript{\textsf{\scriptsize #1}}}

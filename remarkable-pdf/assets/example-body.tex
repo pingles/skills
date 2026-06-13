@@ -1,0 +1,70 @@
+% Minimal example document using the Remarkable preamble.
+% Compile with: pdflatex example-body.tex (twice, to resolve page numbers)
+
+\input{remarkable-preamble.tex}
+
+% Header macros — shown on every page after the first.
+\newcommand{\briefingtitle}{Example Briefing}
+\newcommand{\transcriptnum}{01}
+
+\title{Example Briefing Title}
+\author{Author Name}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{plain}
+
+\section*{Executive Summary}
+
+This is a starter document demonstrating the page geometry, font stack, and
+citation pattern tuned for the Remarkable Pro Move. Body text sits at 10pt
+Pagella with a mild 1.14 leading; the column is about 3.3 inches wide by
+default, which comfortably fits 40--50 characters per line.
+
+\section*{Example Section}
+
+Ordinary prose renders as above. A footnote at first citation of a source
+looks like this: the \textit{Example Source Title}\footnote{[1]~Author, %
+\textit{Example Source Title} (2026) — \url{https://example.com/source}}
+appears once with a superscript marker, then by short form thereafter.
+
+\subsection*{Subsection}
+
+Bulleted lists are defined with tight spacing so they sit well on a narrow
+page:
+
+\begin{itemize}
+  \item First bullet — keep each item short to avoid awkward line breaks.
+  \item Second bullet with a \href{https://example.com}{hyperlink} that the
+        \texttt{xurl} package will break if it overflows the column.
+  \item Third bullet.
+\end{itemize}
+
+\subsection*{Table Example}
+
+Tables use \texttt{tabularx} with \texttt{X} columns so they always fill
+the column width:
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\begin{tabularx}{\linewidth}{@{}XX@{}}
+\toprule
+\textbf{Column A} & \textbf{Column B} \\
+\midrule
+Row 1 cell A & Row 1 cell B \\
+Row 2 cell A & Row 2 cell B \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+\section*{References}
+\footnotesize
+\sloppy
+
+\begin{enumerate}[label={[\arabic*]},leftmargin=1.6em,itemsep=0.5em]
+  \item Author, \textit{Example Source Title} (2026) — \url{https://example.com/source}
+\end{enumerate}
+
+\end{document}
